@@ -28,7 +28,7 @@ Modes must be defined at the top of the file.
 
 #### Strict vs Nonstrict
 Strict mode will infer types of variables declared but not immediately defined, non-strict will infer `any`, ie
-```
+```luau
 local foo = 1 -- Strict: number; nonstrict: number
 
 local bar
@@ -44,7 +44,7 @@ Strict mode will emit an error for global variables, use local variables instead
 `nil` is never inferred since that isn't useful
 
 Types will cascade, ie
-```
+```luau
 local function greetingsHelper(name: string)
     return "Hello, " .. name
 end
@@ -59,27 +59,27 @@ print(greetings({name = "Alexander"})) -- not ok
 
 ### Type annotations
 Define a type by annotating a variable or function with the `:` symbol, ie:
-```
+```luau
 function foo(x: number, y: string): boolean
     local k: string = y:rep(x)
     return k == "a"
 end
 ```
 Or create a type alias by using the `type` keyword, ie.
-```
+```luau
 type Foo = any
 type Point = { x: number, y: number }
 type Array<T> = { [number]: T }
 type Something = typeof(string.gmatch("", "\d"))
 ```
 Type aliases are local to their own file unless the `export` keyword is used, ie
-```
+```luau
 type Foo = any
 export Foo
 export type Point = {x: number, y: number}
 ```
 Exported types can be used in another module by prefexing its name with the require alias, ie
-```
+```luau
 local M = require(Other.Module)
 
 local a: M.Point = {x=5, y=6}
@@ -104,7 +104,7 @@ Union (either-or): A | B, ie `(number | boolean) -> string`
 
 Checking a type inherently refines it, ie
 
-```
+```luau
 local stringOrNumber: string | number = "foo"
 
 if type(x) == "string" then
@@ -134,13 +134,13 @@ local onlyNumber: number = stringOrNumber2 -- not ok
 Function types are defined with `() ->`, ie. `local foo: (number, string) -> boolean`
 
 Functions which return 0 or more than 1 values must be wrapped with `()`, ie:
-```
+```luau
 local no_returns: (number, string) -> ()
 local returns_boolean_and_string: (number, string) -> (boolean, string)
 ```
 
 A function's variable names may optionally be specified in the type, ie:
-```
+```luau
 local callback: (errorCode: number, errorText: string) -> ()
 ```
 
@@ -153,7 +153,7 @@ Tables are `unsealed`, `sealed`, or `generic`.
 * `sealed` tables CANNOT have properties added but can have their values changed
 * `generic` tables have some interface defined, but not completely
 
-```
+```luau
 local function vec2(x, y)
     local t = {} -- table is unsealed
     t.x = x
@@ -179,7 +179,7 @@ f({x = 1})               -- not ok
 
 Table types are specified using the same syntax as creating a table, but with `:`, ie
 
-```
+```luau
 local array: { [number] : string }
 local arrayShorthand: {string}
 local object: { x: number, y: string }
